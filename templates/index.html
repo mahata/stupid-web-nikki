@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+
+{% block main %}
+<p>
+Blog here.
+</p>
+
+{% if g.login %}
+<p>
+You're login user.
+</p>
+
+<ul>
+ <li><a href="write">write</a></li>
+ <li><a href="logout">logout</a></li>
+</ul>
+{% else %}
+<p>
+You're not login user.
+</p>
+
+<ul>
+ <li><a href="login">login</a></li>
+</ul>
+{% endif %}
+
+{% endblock %}

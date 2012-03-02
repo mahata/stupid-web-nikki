@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+{% if g.login %}
+<p>
+You're login user.
+</p>
+
+<form method="POST">
+<textarea cols="80" rows="20" placeholder="write something here..."></textarea><br />
+<input type="submit" value="post" />
+</form>
+{% else %}
+<p>
+You're not login user.
+</p>
+
+<ul>
+ <li><a href="login">login</a></li>
+</ul>
+{% endif %}
+
+
+{% endblock %}
