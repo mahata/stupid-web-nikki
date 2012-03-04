@@ -1,5 +1,7 @@
 CREATE TABLE articles (
-  id INTEGER,
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
   article TEXT,
-  created_at DATETIME
+  created_date INTEGER,
+  UNIQUE(created_date)
 );
+

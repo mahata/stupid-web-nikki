@@ -1,16 +1,26 @@
 {% extends "base.html" %}
 
+{% block head %}
+{{ super() }}
+<script type="text/javascript" src="/static/js/write.js"></script>
+{% endblock %}
+
 {% block main %}
 
 {% if g.login %}
-<p>
-You're login user.
-</p>
+<h2>Write your article</h2>
 
+<div>
 <form method="POST">
-<textarea cols="80" rows="20" placeholder="write something here..."></textarea><br />
+<textarea id="article" name="article" rows="20" style="width: 100%;" placeholder="write something here...">{{ var['article'] }}</textarea><br />
 <input type="submit" value="post" />
 </form>
+</div>
+
+<h2>Preview</h2>
+<div id="preview">
+</div>
+
 {% else %}
 <p>
 You're not login user.

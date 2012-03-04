@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="ja">
   <head>
-    {% block head %}{% endblock %}
-<meta charset="utf-8" />
-<title>stupid web nikki</title>
-<script type="text/javascript" src="/static/js/jquery-1.7.min.js"></script>
-<!--[if lt IE 9]>
-<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]-->
+{% block head %}
+    <meta charset="utf-8" />
+    <title>stupid web nikki</title>
+    <script type="text/javascript" src="/static/js/jquery-1.7.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+{% endblock %}
   </head>
 
   <body>
-
 {% block main %}{% endblock %}
-
   </body>
 </html>
