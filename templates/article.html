@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+{% if '' != var.article %}
+<h2>{{ var.date[0:4] }}/{{ var.date[4:6] }}/{{ var.date[6:8] }}</h2>
+{{ var.article }}
+{% else %}
+No article found.
+{% endif %}
+
+<ul>
+  <li><a href="/">Go to top</a></li>
+</ul>
+
+{% endblock %}

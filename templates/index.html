@@ -1,7 +1,4 @@
 {% extends "base.html" %}
-{% block head %}
-  {{ super() }}
-{% endblock %}
 
 {% block main %}
 <p>
@@ -12,6 +9,12 @@ Blog here.
 <p>
 You're login user.
 </p>
+
+<ul>
+{% for article in var.articles %}
+  <li>{{ article[1]|date }}: <a href="article?date={{ article[1] }}">{{ article[0] }}</a></li>
+{% endfor %}
+</ul>
 
 <ul>
  <li><a href="write">write</a></li>

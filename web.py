@@ -22,6 +22,12 @@ def connect_db():
     return sqlite3.connect(DATABASE)
 
 
+@app.template_filter("date")
+def date_filter(s):
+    s = str(s)
+    return s[0:4] + '/' + s[4:6] + '/' + s[6:8]
+
+
 @app.before_request
 def before_request():
     g.today = datetime.datetime.today()
@@ -40,8 +46,8 @@ def teardown_request(exception):
 
 @app.route('/')
 def index():
-    template = 'index.html'
-    return render_template(template)
+    cursor = g.db.execute('SELECT article, created_date from articles')
+    return render_template('index.html', var={'articles': cursor.fetchall()})
 
 
 @app.route('/write', methods=['GET', 'POST'])
@@ -63,8 +69,13 @@ def write():
     except:
         pass
 
-    template = 'write.html'
-    return render_template(template, var=var)
+    return render_template('write.html', var=var)
+
+
+@app.route('/article')
+def article():
+    cursor = g.db.execute('SELECT article, created_date FROM articles WHERE created_date = ?', [request.args.get('date')])
+    return render_template('article.html', var={'article': cursor.fetchone()[0], 'date': request.args.get('date')})
 
 
 @app.route('/api', methods=['POST'])
@@ -80,8 +91,7 @@ def login():
             session['login'] = True
             return redirect(url_for('index'))
 
-    template = 'login.html'
-    return render_template(template)
+    return render_template('login.html')
 
 
 @app.route('/logout')
