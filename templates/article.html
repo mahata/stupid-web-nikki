@@ -3,14 +3,9 @@
 {% block main %}
 
 {% if '' != var.article %}
-<h2>{{ var.date[0:4] }}/{{ var.date[4:6] }}/{{ var.date[6:8] }}</h2>
-{{ var.article }}
+<h2>{% if g.login %}(<a href="write?date={{ var['date'] }}">edit</a>) {% endif %}{{ var['date']|date }}</h2>
+{{ var.article|safe }}
 {% else %}
 No article found.
 {% endif %}
-
-<ul>
-  <li><a href="/">Go to top</a></li>
-</ul>
-
 {% endblock %}

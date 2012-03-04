@@ -3,7 +3,7 @@
   <head>
 {% block head %}
     <meta charset="utf-8" />
-    <title>stupid web nikki</title>
+    <title>{{ var['title'] }}</title>
     <script type="text/javascript" src="/static/js/jquery-1.7.min.js"></script>
     <link type="text/css" rel="stylesheet" href="/static/css/main.css" />
     <!--[if lt IE 9]>
@@ -13,7 +13,7 @@
   </head>
 
   <body>
-<h1><a href="/">stupid web nikki</a></h1>
+<h1><a href="/">{{ var['title'] }}</a></h1>
 {% block main %}{% endblock %}
   </body>
 </html>

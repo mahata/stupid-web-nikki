@@ -1,2 +1,5 @@
 DEBUG = False
 SECRET_KEY = "development key"
+
+TITLE = "Stupid web nikki"
+PASSWORD = "password"

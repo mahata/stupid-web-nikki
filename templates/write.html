@@ -2,8 +2,10 @@
 
 {% block head %}
 {{ super() }}
+{% if g.login %}
 <script type="text/javascript" src="/static/js/write.js"></script>
 <link type="text/css" rel="stylesheet" href="/static/css/write.css" />
+{% endif %}
 {% endblock %}
 
 {% block main %}
@@ -17,6 +19,7 @@
 
 <div id="left-box">
 <form method="POST">
+<input name="date" type="hidden" value="{{ var['date'] }}" />
 <textarea id="article" name="article" rows="40" style="width: 95%;" placeholder="write something here...">{{ var['article'] }}</textarea><br />
 <input type="submit" value="post" />
 </form>
@@ -25,14 +28,6 @@
 <div id="right-box">
 <div id="preview"></div>
 </div>
-{% else %}
-<p>
-You're not login user.
-</p>
-
-<ul>
- <li><a href="login">login</a></li>
-</ul>
 {% endif %}
 
 

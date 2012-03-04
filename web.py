@@ -47,27 +47,29 @@ def teardown_request(exception):
 @app.route('/')
 def index():
     cursor = g.db.execute('SELECT article, created_date from articles')
-    return render_template('index.html', var={'articles': cursor.fetchall()})
+    return render_template('index.html', var={'articles': cursor.fetchall(), 'title': app.config['TITLE']})
 
 
 @app.route('/write', methods=['GET', 'POST'])
 def write():
-    var = {'article': ''}
+    var = {'article': '', 'date': '', 'title': app.config['TITLE']}
     if 'POST' == request.method and session['login']:
+        var['date'] = request.form['date']
         try:
             g.db.execute('INSERT INTO articles (article, created_date) VALUES (?, ?)', \
-                             [request.form['article'], int('%4d%02d%02d' % (g.today.year, g.today.month, g.today.day))])
+                             [request.form['article'], var['date']])
         except:
             g.db.execute('UPDATE articles set article = ? WHERE created_date = ?', \
-                             [request.form['article'], int('%4d%02d%02d' % (g.today.year, g.today.month, g.today.day))])
+                             [request.form['article'], var['date']])
         g.db.commit()
+    else:
+        var['date'] = request.args.get('date')
 
-    try:
-        cursor = g.db.execute('SELECT article FROM articles WHERE created_date = ?', \
-                                  [int('%4d%02d%02d' % (g.today.year, g.today.month, g.today.day))])
-        var['article'] = cursor.fetchone()[0]
-    except:
-        pass
+    if ('' == var['date'] or None == var['date']):
+        var['date'] = '%4d%02d%02d' % (g.today.year, g.today.month, g.today.day)
+
+    cursor = g.db.execute('SELECT article FROM articles WHERE created_date = ?', [var['date']])
+    var['article'] = cursor.fetchone()[0]
 
     return render_template('write.html', var=var)
 
@@ -75,7 +77,9 @@ def write():
 @app.route('/article')
 def article():
     cursor = g.db.execute('SELECT article, created_date FROM articles WHERE created_date = ?', [request.args.get('date')])
-    return render_template('article.html', var={'article': cursor.fetchone()[0], 'date': request.args.get('date')})
+    return render_template('article.html', var={'article': markdown.markdown(cursor.fetchone()[0]), \
+                                                    'title': app.config['TITLE'], \
+                                                    'date': request.args.get('date')})
 
 
 @app.route('/api', methods=['POST'])
@@ -87,22 +91,18 @@ def api():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if 'POST' == request.method:
-        if 'melody' == request.form['pass']:
+        # if 'melody' == request.form['pass']:
+        if app.config['PASSWORD'] == request.form['pass']:
             session['login'] = True
             return redirect(url_for('index'))
 
-    return render_template('login.html')
+    return render_template('login.html', var={'title': app.config['TITLE']})
 
 
 @app.route('/logout')
 def logout():
     session.pop('login', None)
     return redirect(url_for('index'))
-
-
-@app.route('/error')
-def error():
-    return 'something is strange.'
 
 
 if __name__ == '__main__':

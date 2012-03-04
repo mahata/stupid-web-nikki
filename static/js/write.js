@@ -4,4 +4,8 @@ $(function() {
             $('#preview').html(data);
         });
     });
+
+    $.post('/api', {article: $('#article').val()}, function(data) {
+        $('#preview').html(data);
+    });
 });
