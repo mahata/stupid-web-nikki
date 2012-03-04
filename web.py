@@ -68,8 +68,11 @@ def write():
     if ('' == var['date'] or None == var['date']):
         var['date'] = '%4d%02d%02d' % (g.today.year, g.today.month, g.today.day)
 
-    cursor = g.db.execute('SELECT article FROM articles WHERE created_date = ?', [var['date']])
-    var['article'] = cursor.fetchone()[0]
+    try:
+        cursor = g.db.execute('SELECT article FROM articles WHERE created_date = ?', [var['date']])
+        var['article'] = cursor.fetchone()[0]
+    except:
+        var['article'] = ''
 
     return render_template('write.html', var=var)
 
