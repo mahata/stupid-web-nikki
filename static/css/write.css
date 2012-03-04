@@ -1,4 +1,32 @@
-#preview {
-  border-style:dotted;
-  padding: 10px;
+#container {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    width: 96%;
 }
+
+#header {
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+#left-box {
+    float: left;
+    width: 50%;
+}
+
+#right-box {
+    margin-left: 50%;
+}
+
+/*
+#footer {
+    border-top: 1px dotted;
+    clear: left;
+    margin-top: 20px;
+    padding-top: 20px;
+    text-align: center;
+    width: 100%;
+}
+*/

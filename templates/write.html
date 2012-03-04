@@ -9,19 +9,22 @@
 {% block main %}
 
 {% if g.login %}
-<h2>Write your article</h2>
+<div id="container">
 
-<div>
+<div id="header">
+<h2>Write your article</h2>
+</div>
+
+<div id="left-box">
 <form method="POST">
-<textarea id="article" name="article" rows="20" style="width: 100%;" placeholder="write something here...">{{ var['article'] }}</textarea><br />
+<textarea id="article" name="article" rows="40" style="width: 95%;" placeholder="write something here...">{{ var['article'] }}</textarea><br />
 <input type="submit" value="post" />
 </form>
 </div>
 
-<h2>Preview</h2>
-<div id="preview">
+<div id="right-box">
+<div id="preview"></div>
 </div>
-
 {% else %}
 <p>
 You're not login user.
