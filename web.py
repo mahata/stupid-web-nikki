@@ -4,13 +4,14 @@
 import os
 import sys
 import pprint
-import sqlite3
+#import sqlite3
+import psycopg2
 import datetime
 import markdown
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
 
 
-DATABASE = '/tmp/sqlite3.db'
+# DATABASE = '/tmp/sqlite3.db'
 
 
 app = Flask(__name__)
@@ -19,7 +20,12 @@ app.config.from_pyfile(file)
 
 
 def connect_db():
-    return sqlite3.connect(DATABASE)
+    # return sqlite3.connect(DATABASE)
+    return psycopg2.connect(database = app.config['PGSQL_DB'],
+                            user = app.config['PGSQL_USER'],
+                            password = app.config['PGSQL_PASS'],
+                            host = app.config['PGSQL_HOST'],
+                            port = app.config['PGSQL_PORT'])
 
 
 @app.template_filter("date")
