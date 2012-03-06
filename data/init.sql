@@ -5,4 +5,3 @@ CREATE TABLE articles (
   created_date INTEGER,
   UNIQUE(created_date)
 );
-

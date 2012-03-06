@@ -20,7 +20,7 @@
 <div id="left-box">
 <form method="POST">
 <input name="date" type="hidden" value="{{ var['date'] }}" />
-<textarea id="article" name="article" rows="40" style="width: 95%;" placeholder="Write your article...">{{ var['article'] }}</textarea><br />
+<textarea id="article" name="article" rows="40" style="width: 95%;" placeholder="Write your article...">{{ var['article']|unicode }}</textarea><br />
 <input type="submit" value="post" />
 </form>
 </div>

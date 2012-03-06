@@ -27,7 +27,12 @@ def connect_db():
                             port = app.config['PGSQL_PORT'])
 
 
-@app.template_filter("date")
+@app.template_filter('unicode')
+def unicode_filter(s):
+    return s.decode('utf-8')
+
+
+@app.template_filter('date')
 def date_filter(s):
     s = str(s)
     return s[0:4] + '/' + s[4:6] + '/' + s[6:8]
@@ -52,6 +57,11 @@ def before_request():
 @app.route('/')
 def index():
     # cursor = g.db.execute('SELECT article, created_date from articles')
+    print app.config['PGSQL_DB']
+    print app.config['PGSQL_USER']
+    print app.config['PGSQL_PASS']
+    print app.config['PGSQL_HOST']
+    print app.config['PGSQL_PORT']
     cursor = g.db.cursor()
     cursor.execute('SELECT article, created_date FROM articles')
     return render_template('index.html', var={'articles': cursor.fetchall(), 'title': app.config['TITLE']})
