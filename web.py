@@ -20,7 +20,6 @@ app.config.from_pyfile(file)
 
 
 def connect_db():
-    # return sqlite3.connect(DATABASE)
     return psycopg2.connect(database = app.config['PGSQL_DB'],
                             user = app.config['PGSQL_USER'],
                             password = app.config['PGSQL_PASS'],
@@ -44,15 +43,17 @@ def before_request():
         g.login = False
 
 
-@app.teardown_request
-def teardown_request(exception):
-    if hasattr(g, 'db'):
-        g.db.close()
+# @app.teardown_request
+# def teardown_request(exception):
+#     if hasattr(g, 'db'):
+#         g.db.close()
 
 
 @app.route('/')
 def index():
-    cursor = g.db.execute('SELECT article, created_date from articles')
+    # cursor = g.db.execute('SELECT article, created_date from articles')
+    cursor = g.db.cursor()
+    cursor.execute('SELECT article, created_date FROM articles')
     return render_template('index.html', var={'articles': cursor.fetchall(), 'title': app.config['TITLE']})
 
 
@@ -61,13 +62,15 @@ def write():
     var = {'article': '', 'date': '', 'title': app.config['TITLE']}
     if 'POST' == request.method and session['login']:
         var['date'] = request.form['date']
+        cursor = g.db.cursor()
         try:
-            g.db.execute('INSERT INTO articles (article, created_date) VALUES (?, ?)', \
-                             [request.form['article'], var['date']])
+            cursor.execute('INSERT INTO articles (article, created_date) VALUES (%s, %s)', \
+                               [request.form['article'], var['date']])
         except:
-            g.db.execute('UPDATE articles set article = ? WHERE created_date = ?', \
-                             [request.form['article'], var['date']])
+            cursor.execute('UPDATE articles SET article = %s WHERE created_date = %s', \
+                               [request.form['article'], var['date']])
         g.db.commit()
+        cursor.close()
     else:
         var['date'] = request.args.get('date')
 
@@ -75,7 +78,8 @@ def write():
         var['date'] = '%4d%02d%02d' % (g.today.year, g.today.month, g.today.day)
 
     try:
-        cursor = g.db.execute('SELECT article FROM articles WHERE created_date = ?', [var['date']])
+        cursor = g.db.cursor()
+        cursor.execute('SELECT article FROM articles WHERE created_date = %s', [var['date']])
         var['article'] = cursor.fetchone()[0]
     except:
         var['article'] = ''
@@ -85,7 +89,8 @@ def write():
 
 @app.route('/article')
 def article():
-    cursor = g.db.execute('SELECT article, created_date FROM articles WHERE created_date = ?', [request.args.get('date')])
+    cursor = g.db.cursor()
+    cursor.execute('SELECT article, created_date FROM articles WHERE created_date = %s', [request.args.get('date')])
     return render_template('article.html', var={'article': markdown.markdown(cursor.fetchone()[0]), \
                                                     'title': app.config['TITLE'], \
                                                     'date': request.args.get('date')})
