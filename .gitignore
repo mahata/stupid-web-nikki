@@ -1,5 +1,3 @@
-app_dev.cfg
-app_prod.cfg
 logfile
 include
 lib
