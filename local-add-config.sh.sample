@@ -1,0 +1,13 @@
+#!/bin/sh
+
+DEBUG=false
+SECRET_KEY="development key"
+
+TITLE="Stupid web nikki"
+PASSWORD="password"
+
+PGSQL_DB=""
+PGSQL_USER=""
+PGSQL_PASS=""
+PGSQL_HOST=""
+PGSQL_PORT=5432

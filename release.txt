@@ -1,0 +1,31 @@
+;; ==================================================
+
+$ source local-add-config.sh
+
+;; ==================================================
+
+Create new app [stupid-web-nikki] on heroku.
+
+$ heroku create --stack cedar stupid-web-nikki
+$ git remote add stupid-web-nikki git@heroku.com:stupid-web-nikki.git
+
+;; ==================================================
+
+$ git push stupid-web-nikki master
+$ heroku restart --app stupid-web-nikki
+$ heroku logs --app stupid-web-nikki
+$ heroku ps --app stupid-web-nikki
+$ heroku config --app stupid-web-nikki
+$ heroku run python --app stupid-web-nikki
+
+;; ==================================================
+
+>>> import os
+>>> os.system("ls")
+
+(remove "app_dev.cfg" and "app_prod.cfg" from .gitignore first)
+$ git add app_dev.cfg app_prod.cfg
+$ git ci -m "release."
+$ git push stupid-web-nikki master
+(add "app_dev.cfg" and "app_prod.cfg" from .gitignore)
+
