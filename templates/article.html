@@ -4,7 +4,7 @@
 
 {% if '' != var.article %}
 <h2>{% if g.login %}(<a href="write?date={{ var['date'] }}">edit</a>) {% endif %}{{ var['date']|date }}</h2>
-{{ var.article|safe }}
+{{ var['article']|safe }}
 {% else %}
 No article found.
 {% endif %}

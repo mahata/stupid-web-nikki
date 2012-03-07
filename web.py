@@ -104,7 +104,7 @@ def write():
 def article():
     cursor = g.db.cursor()
     cursor.execute('SELECT article, created_date FROM articles WHERE created_date = %s', [request.args.get('date')])
-    return render_template('article.html', var={'article': markdown.markdown(cursor.fetchone()[0]), \
+    return render_template('article.html', var={'article': markdown.markdown(cursor.fetchone()[0].decode('utf-8')), \
                                                     'title': app.config['TITLE'], \
                                                     'date': request.args.get('date')})
 
@@ -112,7 +112,7 @@ def article():
 @app.route('/api', methods=['POST'])
 def api():
     if session['login']:
-        return markdown.markdown(request.form['article'])
+        return markdown.markdown(request.form['article'].decode('utf-8'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
