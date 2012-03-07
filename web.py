@@ -76,13 +76,13 @@ def write():
             cursor = g.db.cursor()
             cursor.execute('INSERT INTO articles (article, created_date) VALUES (%s, %s)', \
                                [request.form['article'], var['date']])
-            g.db.commit()
         except:
-            g.db.commit()
+            g.db.rollback()
             cursor = g.db.cursor()
             cursor.execute('UPDATE articles SET article = %s WHERE created_date = %s', \
                                [request.form['article'], var['date']])
-            g.db.commit()
+
+        g.db.commit()
 
     else:
         var['date'] = request.args.get('date')
