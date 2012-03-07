@@ -48,10 +48,10 @@ def before_request():
         g.login = False
 
 
-# @app.teardown_request
-# def teardown_request(exception):
-#     if hasattr(g, 'db'):
-#         g.db.close()
+@app.teardown_request
+def teardown_request(exception):
+    if hasattr(g, 'db'):
+        g.db.close()
 
 
 @app.route('/')
@@ -72,16 +72,18 @@ def write():
     var = {'article': '', 'date': '', 'title': app.config['TITLE']}
     if 'POST' == request.method and session['login']:
         var['date'] = request.form['date']
-        cursor = g.db.cursor()
         try:
+            cursor = g.db.cursor()
             cursor.execute('INSERT INTO articles (article, created_date) VALUES (%s, %s)', \
                                [request.form['article'], var['date']])
+            g.db.commit()
         except:
+            g.db.commit()
+            cursor = g.db.cursor()
             cursor.execute('UPDATE articles SET article = %s WHERE created_date = %s', \
                                [request.form['article'], var['date']])
+            g.db.commit()
 
-        g.db.commit()
-        cursor.close()
     else:
         var['date'] = request.args.get('date')
 
