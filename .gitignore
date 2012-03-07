@@ -1,6 +1,7 @@
 app_dev.cfg
 app_prod.cfg
 logfile
+include
 lib
 .Python
 .DS_Store
