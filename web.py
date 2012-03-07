@@ -69,6 +69,7 @@ def write():
         except:
             cursor.execute('UPDATE articles SET article = %s WHERE created_date = %s', \
                                [request.form['article'], var['date']])
+
         g.db.commit()
         cursor.close()
     else:
