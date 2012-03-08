@@ -1,9 +1,0 @@
-heroku-add-config.py
-local-add-config.sh
-logfile
-include
-lib
-.Python
-.DS_Store
-*#
-*.pyc
