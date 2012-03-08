@@ -4,14 +4,10 @@
 import os
 import sys
 import pprint
-#import sqlite3
 import psycopg2
 import datetime
 import markdown
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
-
-
-# DATABASE = '/tmp/sqlite3.db'
 
 
 app = Flask(__name__)
@@ -57,7 +53,6 @@ def teardown_request(exception):
 
 @app.route('/')
 def index():
-    # cursor = g.db.execute('SELECT article, created_date from articles')
     cursor = g.db.cursor()
     cursor.execute('SELECT article, created_date FROM articles')
     return render_template('index.html', var={'articles': cursor.fetchall(), 'title': os.getenv('TITLE')})
