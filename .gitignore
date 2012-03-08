@@ -1,6 +1,4 @@
-app_dev.cfg
-app_prod.cfg
-heroku-add-config.sh
+heroku-add-config.py
 local-add-config.sh
 logfile
 include

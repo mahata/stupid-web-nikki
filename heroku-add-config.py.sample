@@ -1,0 +1,30 @@
+#!/usr/bin/env python
+
+import os
+
+heroku = "/usr/bin/heroku"
+app = "stupid-web-nikki"
+
+debug = "true"
+secret_key = "development key"
+
+title = "Stupid web nikki"
+password = "password"
+
+pgsql_db = ""
+pgsql_user = ""
+pgsql_pass = ""
+pgsql_host = ""
+pgsql_port = 5432
+
+os.system('%s config:add --app %s DEBUG=%s'        % (heroku, app, debug))
+os.system('%s config:add --app %s SECRET_KEY="%s"' % (heroku, app, secret_key))
+
+os.system('%s config:add --app %s TITLE="%s"'      % (heroku, app, title))
+os.system('%s config:add --app %s PASSWORD="%s"'   % (heroku, app, password))
+
+os.system('%s config:add --app %s PGSQL_DB="%s"'   % (heroku, app, pgsql_db))
+os.system('%s config:add --app %s PGSQL_USER="%s"' % (heroku, app, pgsql_user))
+os.system('%s config:add --app %s PGSQL_PASS="%s"' % (heroku, app, pgsql_pass))
+os.system('%s config:add --app %s PGSQL_HOST="%s"' % (heroku, app, pgsql_host))
+os.system('%s config:add --app %s PGSQL_PORT=%s'   % (heroku, app, pgsql_port))
