@@ -16,15 +16,15 @@ from flask import Flask, request, session, g, redirect, url_for, abort, render_t
 
 app = Flask(__name__)
 file = os.getenv('CFG') if os.getenv('CFG') else 'app_dev.cfg'
-app.config.from_pyfile(file)
 
 
 def connect_db():
-    return psycopg2.connect(database = app.config['PGSQL_DB'],
-                            user = app.config['PGSQL_USER'],
-                            password = app.config['PGSQL_PASS'],
-                            host = app.config['PGSQL_HOST'],
-                            port = app.config['PGSQL_PORT'])
+    return psycopg2.connect(database = os.getenv('PGSQL_DB'),
+                            user     = os.getenv('PGSQL_USER'),
+                            password = os.getenv('PGSQL_PASS'),
+                            host     = os.getenv('PGSQL_HOST'),
+                            port     = os.getenv('PGSQL_PORT'),
+                            )
 
 
 @app.template_filter('unicode')
@@ -57,19 +57,14 @@ def teardown_request(exception):
 @app.route('/')
 def index():
     # cursor = g.db.execute('SELECT article, created_date from articles')
-    print app.config['PGSQL_DB']
-    print app.config['PGSQL_USER']
-    print app.config['PGSQL_PASS']
-    print app.config['PGSQL_HOST']
-    print app.config['PGSQL_PORT']
     cursor = g.db.cursor()
     cursor.execute('SELECT article, created_date FROM articles')
-    return render_template('index.html', var={'articles': cursor.fetchall(), 'title': app.config['TITLE']})
+    return render_template('index.html', var={'articles': cursor.fetchall(), 'title': os.getenv('TITLE')})
 
 
 @app.route('/write', methods=['GET', 'POST'])
 def write():
-    var = {'article': '', 'date': '', 'title': app.config['TITLE']}
+    var = {'article': '', 'date': '', 'title': os.getenv('TITLE')}
     if 'POST' == request.method and session['login']:
         var['date'] = request.form['date']
         try:
@@ -105,25 +100,24 @@ def article():
     cursor = g.db.cursor()
     cursor.execute('SELECT article, created_date FROM articles WHERE created_date = %s', [request.args.get('date')])
     return render_template('article.html', var={'article': markdown.markdown(cursor.fetchone()[0].decode('utf-8')), \
-                                                    'title': app.config['TITLE'], \
+                                                    'title': os.getenv('TITLE'), \
                                                     'date': request.args.get('date')})
 
 
 @app.route('/api', methods=['POST'])
 def api():
     if session['login']:
-        return markdown.markdown(request.form['article'].decode('utf-8'))
+        return markdown.markdown(request.form['article'])
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if 'POST' == request.method:
-        # if 'melody' == request.form['pass']:
-        if app.config['PASSWORD'] == request.form['pass']:
+        if os.getenv('PASSWORD') == request.form['pass']:
             session['login'] = True
             return redirect(url_for('index'))
 
-    return render_template('login.html', var={'title': app.config['TITLE']})
+    return render_template('login.html', var={'title': os.getenv('TITLE')})
 
 
 @app.route('/logout')
@@ -133,7 +127,5 @@ def logout():
 
 
 if __name__ == '__main__':
-    import doctest
-    doctest.testmod()
-    port = int(os.environ.get('PORT', 5000))
+    port = int(os.getenv('PORT', 5000))
     app.run(host="0.0.0.0", port=port)

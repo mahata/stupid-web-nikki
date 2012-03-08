@@ -1,13 +1,13 @@
 #!/bin/sh
 
-DEBUG=false
-SECRET_KEY="development key"
+export DEBUG=false
+export SECRET_KEY="development key"
 
-TITLE="Stupid web nikki"
-PASSWORD="password"
+export TITLE="Stupid web nikki"
+export PASSWORD="password"
 
-PGSQL_DB=""
-PGSQL_USER=""
-PGSQL_PASS=""
-PGSQL_HOST=""
-PGSQL_PORT=5432
+export PGSQL_DB=""
+export PGSQL_USER=""
+export PGSQL_PASS=""
+export PGSQL_HOST=""
+export PGSQL_PORT=5432
