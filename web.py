@@ -15,6 +15,7 @@ from flask import Flask, request, session, g, redirect, url_for, abort, render_t
 
 
 app = Flask(__name__)
+app.config.update(DEBUG=os.getenv('DEBUG'), SECRET_KEY=os.getenv('SECRET_KEY'))
 file = os.getenv('CFG') if os.getenv('CFG') else 'app_dev.cfg'
 
 
