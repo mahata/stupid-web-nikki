@@ -1,0 +1,12 @@
+<<<<<<< HEAD
+heroku-add-config.py
+local-add-config.sh
+=======
+>>>>>>> 105c2ee425650b4aca4d7832067c69ed3c8e8cd3
+logfile
+include
+lib
+.Python
+.DS_Store
+*#
+*.pyc
