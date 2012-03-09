@@ -14,6 +14,15 @@
 
   <body>
 <h1><a href="/">{{ var['title'] }}</a></h1>
+
+{% block search %}
+<div>
+<form action="search" method="GET">
+<input name="q" placeholder="Search keyword here" type="text" value="{{ var.q }}" autofocus /> <input type="submit" value="Search" />
+</form>
+</div>
+{% endblock %}
+
 {% block main %}{% endblock %}
   </body>
 </html>
