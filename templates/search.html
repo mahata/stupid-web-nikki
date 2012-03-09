@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+<h2>Search results of "{{ var.q }}"</h2>
+
+<div>
+<form method="GET">
+<input name="q" placeholder="Search keyword here" type="text" value="{{ var.q }}" autofocus /> <input type="submit" value="Search" />
+</form>
+</div>
+
+<ul>
+{% for article in var.articles %}
+  <li>{% if g.login %}(<a href="write?date={{ article[1] }}">edit</a>) {% endif %}{{ article[1]|date }}: <a href="article?date={{ article[1] }}">{{ article[0]|unicode|truncate(50, True, "...") }}</a></li>
+{% endfor %}
+</ul>
+
+{% endblock %}

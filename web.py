@@ -100,6 +100,14 @@ def article():
                                                     'date': request.args.get('date')})
 
 
+@app.route('/search')
+def search():
+    q = request.args.get('q')
+    cursor = g.db.cursor()
+    cursor.execute('SELECT article, created_date FROM articles WHERE article LIKE %(like)s', dict(like='%'+q+'%'))
+    return render_template('search.html', var={'q': q, 'articles': cursor.fetchall()})
+
+
 @app.route('/api', methods=['POST'])
 def api():
     if session['login']:
