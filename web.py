@@ -54,7 +54,7 @@ def teardown_request(exception):
 @app.route('/')
 def index():
     cursor = g.db.cursor()
-    cursor.execute('SELECT article, created_date FROM articles')
+    cursor.execute('SELECT article, created_date FROM articles ORDER BY created_date DESC')
     return render_template('index.html', var={'articles': cursor.fetchall(), 'title': os.getenv('TITLE')})
 
 
