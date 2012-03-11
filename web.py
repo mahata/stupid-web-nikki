@@ -130,6 +130,43 @@ def logout():
     return redirect(url_for('index'))
 
 
+@app.route('/rss')
+def rss():
+    # return render_template('rss.xml')
+    rss = '<?xml version="1.0" encoding="UTF-8"?>' + \
+        '<rss version="2.0">' + \
+        '<channel>' + \
+        '<title>' + os.getenv('TITLE') + '</title>' + \
+        '<link>' + 'http://%s/' % (app.config['SERVER_NAME']) + '</link>' + \
+        '<description>' + os.getenv('TITLE') + '</description>' + \
+        '<language>ja</language>'
+
+    cursor = g.db.cursor()
+    cursor.execute('SELECT article, created_date FROM articles ORDER BY created_date DESC LIMIT 20')
+    articles = cursor.fetchall()
+
+    for article in articles:
+        t = datetime.date(int(str(article[1])[0:4]), int(str(article[1])[4:6]), int(str(article[1])[6:8]))
+        rss += '<titlle>' + date_filter(article[1]) + '</title>' + \
+            '<link>' + 'http://%s/?article?date=%s' % (app.config['SERVER_NAME'], article[1]) + '</link>' + \
+            '<description><![CDATA[' + markdown.markdown(article[0].decode('utf-8')) + ']]></description>' + \
+            '<pubDate>' + t.isoformat() + '</pubDate>'
+
+
+    rss += '</channel>' + \
+        '</rss>'
+
+    response = app.make_response(rss)
+    response.headers['Content-Type'] = 'application/rss+xml'
+    return response
+
+
+@app.errorhandler(404)
+def http_error_404(error):
+    # FIXME
+    return "404: page not found."
+
+
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
     app.run(host="0.0.0.0", port=port)
