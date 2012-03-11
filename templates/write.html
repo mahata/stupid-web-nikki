@@ -20,16 +20,16 @@
 <h2>Write your article</h2>
 </div>
 
-<div id="left-box" style="border-style: solid; height: 500px; padding: 5px; text-align: center;">
+<div id="left-box">
 <form method="POST">
 <input name="date" type="hidden" value="{{ var['date'] }}" />
-<textarea id="text" name="text" style="width: 95%; height: 470px;" placeholder="Write your article...">{{ var['article']|unicode }}</textarea><br />
+<textarea id="text" name="text" placeholder="Write your article...">{{ var['article']|unicode }}</textarea><br />
 <input type="submit" value="post" />
 </form>
 </div>
 
-<div id="right-box" style="border-style: solid; height: 500px; overflow: scroll; padding: 5px;">
-<div id="article" style="width: 95%"></div>
+<div id="right-box">
+<div id="article"></div>
 </div>
 
 </div>

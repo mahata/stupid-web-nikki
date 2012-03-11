@@ -1,3 +1,9 @@
+#article {
+    padding: 0px 5px 0px 5px;
+    width: 98%
+}
+
+
 #container {
     margin-left: auto;
     margin-right: auto;
@@ -12,10 +18,22 @@
 }
 
 #left-box {
+    border-style: solid;
     float: left;
+    height: 550px;
     width: 50%;
+    padding: 5px;
+    text-align: center;
 }
 
 #right-box {
+    border-style: solid;
+    height: 550px;
+    overflow: scroll;
+    padding: 5px;
 }
 
+#text {
+    height: 520px;
+    width: 98%;
+}
