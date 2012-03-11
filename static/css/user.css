@@ -1,0 +1,11 @@
+#article blockquote {
+    background-color: #f6f6f6;
+    border-radius: 10px;
+    padding: 5px 0px 5px 10px;
+}
+
+#article pre {
+    background-color: #f6f6f6;
+    border-radius: 10px;
+    padding: 5px 0px 5px 10px;
+}

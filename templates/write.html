@@ -5,6 +5,7 @@
 {% if g.login %}
 <script type="text/javascript" src="/static/js/write.js"></script>
 <link type="text/css" rel="stylesheet" href="/static/css/write.css" />
+<link type="text/css" rel="stylesheet" href="/static/css/user.css" />
 {% endif %}
 {% endblock %}
 
@@ -22,13 +23,13 @@
 <div id="left-box" style="border-style: solid; height: 500px; padding: 5px; text-align: center;">
 <form method="POST">
 <input name="date" type="hidden" value="{{ var['date'] }}" />
-<textarea id="article" name="article" style="width: 95%; height: 470px;" placeholder="Write your article...">{{ var['article']|unicode }}</textarea><br />
+<textarea id="text" name="text" style="width: 95%; height: 470px;" placeholder="Write your article...">{{ var['article']|unicode }}</textarea><br />
 <input type="submit" value="post" />
 </form>
 </div>
 
 <div id="right-box" style="border-style: solid; height: 500px; overflow: scroll; padding: 5px;">
-<div id="preview" style="width: 95%"></div>
+<div id="article" style="width: 95%"></div>
 </div>
 {% endif %}
 

@@ -1,10 +1,15 @@
 {% extends "base.html" %}
 
+{% block head %}
+{{ super() }}
+<link type="text/css" rel="stylesheet" href="/static/css/user.css" />
+{% endblock %}
+
 {% block main %}
 
 {% if '' != var.article %}
 <h2>{% if g.login %}(<a href="write?date={{ var['date'] }}">edit</a>) {% endif %}{{ var['date']|date }}</h2>
-{{ var['article']|safe }}
+<div id="article">{{ var['article']|safe }}</div>
 {% else %}
 No article found.
 {% endif %}

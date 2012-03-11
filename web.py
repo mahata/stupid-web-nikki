@@ -66,12 +66,12 @@ def write():
         try:
             cursor = g.db.cursor()
             cursor.execute('INSERT INTO articles (article, created_date) VALUES (%s, %s)', \
-                               [request.form['article'], var['date']])
+                               [request.form['text'], var['date']])
         except:
             g.db.rollback()
             cursor = g.db.cursor()
             cursor.execute('UPDATE articles SET article = %s WHERE created_date = %s', \
-                               [request.form['article'], var['date']])
+                               [request.form['text'], var['date']])
 
         g.db.commit()
 
