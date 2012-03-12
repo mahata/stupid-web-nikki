@@ -104,7 +104,7 @@ def search():
     q = request.args.get('q')
     cursor = g.db.cursor()
     cursor.execute('SELECT article, created_date FROM articles WHERE article LIKE %(like)s', dict(like='%'+q+'%'))
-    return render_template('search.html', var={'q': q, 'articles': cursor.fetchall()})
+    return render_template('search.html', var={'articles': cursor.fetchall(), 'title': os.getenv('TITLE'), 'q': q})
 
 
 @app.route('/api', methods=['POST'])
