@@ -132,14 +132,13 @@ def logout():
 
 @app.route('/rss')
 def rss():
-    # return render_template('rss.xml')
-    rss = '<?xml version="1.0" encoding="UTF-8"?>' + \
-        '<rss version="2.0">' + \
-        '<channel>' + \
-        '<title>' + os.getenv('TITLE') + '</title>' + \
-        '<link>' + 'http://%s/' % (app.config['SERVER_NAME']) + '</link>' + \
-        '<description>' + os.getenv('TITLE') + '</description>' + \
-        '<language>ja</language>'
+    rss = '<?xml version="1.0" encoding="UTF-8"?>' + "\n" + \
+        '<rss version="2.0">' + "\n" + \
+        '<channel>' + "\n" + \
+        '<title>' + os.getenv('TITLE') + '</title>' + "\n" + \
+        '<link>' + '%s://%s/' % (request.scheme, request.host) + '</link>' + "\n" + \
+        '<description>' + os.getenv('TITLE') + '</description>' + "\n" + \
+        '<language>ja</language>' + "\n"
 
     cursor = g.db.cursor()
     cursor.execute('SELECT article, created_date FROM articles ORDER BY created_date DESC LIMIT 20')
@@ -147,13 +146,17 @@ def rss():
 
     for article in articles:
         t = datetime.date(int(str(article[1])[0:4]), int(str(article[1])[4:6]), int(str(article[1])[6:8]))
-        rss += '<titlle>' + date_filter(article[1]) + '</title>' + \
-            '<link>' + 'http://%s/?article?date=%s' % (app.config['SERVER_NAME'], article[1]) + '</link>' + \
-            '<description><![CDATA[' + markdown.markdown(article[0].decode('utf-8')) + ']]></description>' + \
-            '<pubDate>' + t.isoformat() + '</pubDate>'
+        rss += '<item>' + "\n" + \
+            '<title>' + date_filter(article[1]) + '</title>' + "\n" + \
+            '<link>' + '%s://%s/article?date=%s' % (request.scheme, request.host, article[1]) + '</link>' + "\n" + \
+            '<description>' + "\n" + \
+            '<![CDATA[' + "\n" + markdown.markdown(article[0].decode('utf-8')) + "\n" + \
+            ']]>' + "\n" + \
+            '</description>' + "\n" + \
+            '<pubDate>' + t.isoformat() + '</pubDate>' + "\n" + \
+            '</item>' + "\n"
 
-
-    rss += '</channel>' + \
+    rss += '</channel>' + "\n" + \
         '</rss>'
 
     response = app.make_response(rss)
