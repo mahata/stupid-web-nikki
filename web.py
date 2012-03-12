@@ -134,9 +134,9 @@ def rss():
     rss = '<?xml version="1.0" encoding="UTF-8"?>' + "\n" + \
         '<rss version="2.0">' + "\n" + \
         '<channel>' + "\n" + \
-        '<title>' + os.getenv('TITLE') + '</title>' + "\n" + \
-        '<link>' + '%s://%s/' % (request.scheme, request.host) + '</link>' + "\n" + \
-        '<description>' + os.getenv('TITLE') + '</description>' + "\n" + \
+        '<title>' + os.getenv('TITLE').decode('utf-8') + '</title>' + "\n" + \
+        '<link>' + '%s://%s/' % (request.scheme.decode('utf-8'), request.host.decode('utf-8')) + '</link>' + "\n" + \
+        '<description>' + os.getenv('TITLE').decode('utf-8') + '</description>' + "\n" + \
         '<language>ja</language>' + "\n"
 
     cursor = g.db.cursor()
@@ -149,7 +149,7 @@ def rss():
             '<title>' + date_filter(article[1]) + '</title>' + "\n" + \
             '<link>' + '%s://%s/article?date=%s' % (request.scheme, request.host, article[1]) + '</link>' + "\n" + \
             '<description>' + "\n" + \
-            '<![CDATA[' + "\n" + article[0] + "\n" + \
+            '<![CDATA[' + "\n" + markdown.markdown(article[0].decode('utf-8')) + "\n" + \
             ']]>' + "\n" + \
             '</description>' + "\n" + \
             '<pubDate>' + t.isoformat() + '</pubDate>' + "\n" + \
