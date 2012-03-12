@@ -149,7 +149,7 @@ def rss():
             '<title>' + date_filter(article[1]) + '</title>' + "\n" + \
             '<link>' + '%s://%s/article?date=%s' % (request.scheme, request.host, article[1]) + '</link>' + "\n" + \
             '<description>' + "\n" + \
-            '<![CDATA[' + "\n" + markdown.markdown(article[0].decode('utf-8')) + "\n" + \
+            '<![CDATA[' + "\n" + article[0] + "\n" + \
             ']]>' + "\n" + \
             '</description>' + "\n" + \
             '<pubDate>' + t.isoformat() + '</pubDate>' + "\n" + \
