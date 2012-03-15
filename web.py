@@ -93,10 +93,30 @@ def write():
 @app.route('/article')
 def article():
     cursor = g.db.cursor()
-    cursor.execute('SELECT article, created_date FROM articles WHERE created_date = %s', [request.args.get('date')])
-    return render_template('article.html', var={'article': markdown.markdown(cursor.fetchone()[0].decode('utf-8')), \
-                                                    'title': os.getenv('TITLE'), \
-                                                    'date': request.args.get('date')})
+    sql = 'SELECT article, created_date ' + \
+          'FROM articles ' + \
+          'WHERE created_date >= (SELECT COALESCE((SELECT created_date FROM articles WHERE created_date < %s ORDER BY created_date DESC LIMIT 1), 1)) ' + \
+          'ORDER BY created_date ASC ' + \
+          'LIMIT 3'
+    cursor.execute(sql, [request.args.get('date')])
+    prev = current = next = None
+    articles = cursor.fetchall()
+    for article in articles:
+        if article[1] < int(request.args.get('date')):
+            if None == prev:
+                prev = {'article': markdown.markdown(article[0].decode('utf-8')), 'date': article[1]}
+        elif article[1] == int(request.args.get('date')):
+            if None == current:
+                current = {'article': markdown.markdown(article[0].decode('utf-8')), 'date': article[1]}
+        else:
+            if None == next:
+                next = {'article': markdown.markdown(article[0].decode('utf-8')), 'date': article[1]}
+
+    return render_template('article.html', var={'prev': prev, \
+                                                'current': current,\
+                                                'next': next, \
+                                                'title': os.getenv('TITLE'), \
+                                                'date': request.args.get('date')})
 
 
 @app.route('/search')
@@ -132,12 +152,12 @@ def logout():
 @app.route('/rss')
 def rss():
     rss = '<?xml version="1.0" encoding="UTF-8"?>' + "\n" + \
-        '<rss version="2.0">' + "\n" + \
-        '<channel>' + "\n" + \
-        '<title>' + os.getenv('TITLE').decode('utf-8') + '</title>' + "\n" + \
-        '<link>' + '%s://%s/' % (request.scheme.decode('utf-8'), request.host.decode('utf-8')) + '</link>' + "\n" + \
-        '<description>' + os.getenv('TITLE').decode('utf-8') + '</description>' + "\n" + \
-        '<language>ja</language>' + "\n"
+          '<rss version="2.0">' + "\n" + \
+          '<channel>' + "\n" + \
+          '<title>' + os.getenv('TITLE').decode('utf-8') + '</title>' + "\n" + \
+          '<link>' + '%s://%s/' % (request.scheme.decode('utf-8'), request.host.decode('utf-8')) + '</link>' + "\n" + \
+          '<description>' + os.getenv('TITLE').decode('utf-8') + '</description>' + "\n" + \
+          '<language>ja</language>' + "\n"
 
     cursor = g.db.cursor()
     cursor.execute('SELECT article, created_date FROM articles ORDER BY created_date DESC LIMIT 20')
@@ -146,17 +166,17 @@ def rss():
     for article in articles:
         t = datetime.date(int(str(article[1])[0:4]), int(str(article[1])[4:6]), int(str(article[1])[6:8]))
         rss += '<item>' + "\n" + \
-            '<title>' + date_filter(article[1]) + '</title>' + "\n" + \
-            '<link>' + '%s://%s/article?date=%s' % (request.scheme, request.host, article[1]) + '</link>' + "\n" + \
-            '<description>' + "\n" + \
-            '<![CDATA[' + "\n" + markdown.markdown(article[0].decode('utf-8')) + "\n" + \
-            ']]>' + "\n" + \
-            '</description>' + "\n" + \
-            '<pubDate>' + t.isoformat() + '</pubDate>' + "\n" + \
-            '</item>' + "\n"
+              '<title>' + date_filter(article[1]) + '</title>' + "\n" + \
+              '<link>' + '%s://%s/article?date=%s' % (request.scheme, request.host, article[1]) + '</link>' + "\n" + \
+              '<description>' + "\n" + \
+              '<![CDATA[' + "\n" + markdown.markdown(article[0].decode('utf-8')) + "\n" + \
+              ']]>' + "\n" + \
+              '</description>' + "\n" + \
+              '<pubDate>' + t.isoformat() + '</pubDate>' + "\n" + \
+              '</item>' + "\n"
 
     rss += '</channel>' + "\n" + \
-        '</rss>'
+           '</rss>'
 
     response = app.make_response(rss)
     response.headers['Content-Type'] = 'application/rss+xml'
