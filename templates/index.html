@@ -4,11 +4,11 @@
 
 <ul>
 {% for article in var.articles %}
-  <li>{% if g.login %}(<a href="write?date={{ article[1] }}">edit</a>) {% endif %}{{ article[1]|date }}: <a href="article?date={{ article[1] }}">{{ article[0]|unicode|truncate(50, True, "...") }}</a></li>
+  <li>{% if g['login'] %}(<a href="write?date={{ article[1] }}">edit</a>) {% endif %}{{ article[1]|date }}: <a href="article?date={{ article[1] }}">{{ article[0]|unicode|truncate(50, True, "...") }}</a></li>
 {% endfor %}
 </ul>
 
-{% if g.login %}
+{% if g['login'] %}
 <ul>
  <li><a href="write">Write new article</a></li>
 </ul>
