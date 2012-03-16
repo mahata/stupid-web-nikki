@@ -37,6 +37,7 @@ def date_filter(s):
 @app.before_request
 def before_request():
     g.today = datetime.datetime.today()
+    g.h1 = os.getenv('TITLE') # for <h1></h1> of each page
     g.db = connect_db()
     try:
         g.login = session['login']
@@ -54,7 +55,9 @@ def teardown_request(exception):
 def index():
     cursor = g.db.cursor()
     cursor.execute('SELECT article, created_date FROM articles ORDER BY created_date DESC')
-    return render_template('index.html', var={'articles': cursor.fetchall(), 'title': os.getenv('TITLE')})
+    return render_template('index.html', var={'articles': cursor.fetchall(), \
+                                              'title': os.getenv('TITLE') + ' - top',
+                                              })
 
 
 @app.route('/write', methods=['GET', 'POST'])
@@ -115,8 +118,9 @@ def article():
     return render_template('article.html', var={'prev': prev, \
                                                 'current': current,\
                                                 'next': next, \
-                                                'title': os.getenv('TITLE'), \
-                                                'date': request.args.get('date')})
+                                                'title': os.getenv('TITLE') + ' - ' + date_filter(request.args.get('date')), \
+                                                'date': request.args.get('date'),
+                                                })
 
 
 @app.route('/search')
@@ -125,7 +129,10 @@ def search():
     cursor = g.db.cursor()
     cursor.execute('SELECT article, created_date FROM articles WHERE article LIKE %(like)s ORDER BY created_date DESC', \
                        dict(like='%'+q+'%'))
-    return render_template('search.html', var={'articles': cursor.fetchall(), 'title': os.getenv('TITLE'), 'q': q})
+    return render_template('search.html', var={'articles': cursor.fetchall(), \
+                                               'title': os.getenv('TITLE') + ' - search', \
+                                               'q': q,
+                                               })
 
 
 @app.route('/api', methods=['POST'])
@@ -141,7 +148,7 @@ def login():
             session['login'] = True
             return redirect(url_for('index'))
 
-    return render_template('login.html', var={'title': os.getenv('TITLE')})
+    return render_template('login.html', var={'title': os.getenv('TITLE') + ' - login'})
 
 
 @app.route('/logout')
