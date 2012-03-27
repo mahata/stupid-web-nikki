@@ -127,7 +127,7 @@ def article():
 def search():
     q = request.args.get('q')
     cursor = g.db.cursor()
-    cursor.execute('SELECT article, created_date FROM articles WHERE article LIKE %(like)s ORDER BY created_date DESC', \
+    cursor.execute('SELECT article, created_date FROM articles WHERE article ILIKE %(like)s ORDER BY created_date DESC', \
                        dict(like='%'+q+'%'))
     return render_template('search.html', var={'articles': cursor.fetchall(), \
                                                'title': os.getenv('TITLE') + ' - search', \
