@@ -3,6 +3,7 @@
 
 import os
 import sys
+import time
 import pprint
 import psycopg2
 import datetime
@@ -39,6 +40,17 @@ def before_request():
     g.today = datetime.datetime.today()
     g.h1 = os.getenv('TITLE') # for <h1></h1> of each page
     g.db = connect_db()
+
+    if (not request.path.startswith('/static/')):
+        cursor = g.db.cursor()
+        cursor.execute('INSERT INTO access_log (path, ip_address, user_agent, referer, access_time) VALUES (%s, %s, %s, %s, %s)', \
+                           [request.url[len(request.url_root) -1:],
+                            request.remote_addr,
+                            request.headers['User-Agent'] if request.headers.has_key('User-Agent') else '',
+                            request.headers['Referer'] if request.headers.has_key('Referer') else '',
+                            int(time.time())])
+        g.db.commit()
+
     try:
         g.login = session['login']
     except:
