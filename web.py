@@ -41,7 +41,7 @@ def before_request():
     g.h1 = os.getenv('TITLE') # for <h1></h1> of each page
     g.db = connect_db()
 
-    if (not request.path.startswith('/static/')):
+    if ((not request.path.startswith('/static/')) and (not request.path.startswith('/favicon.ico'))):
         cursor = g.db.cursor()
         cursor.execute('INSERT INTO access_log (path, ip_address, user_agent, referer, access_time) VALUES (%s, %s, %s, %s, %s)', \
                            [request.url[len(request.url_root) -1:],
