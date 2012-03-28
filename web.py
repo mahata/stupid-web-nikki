@@ -29,6 +29,12 @@ def unicode_filter(s):
     return s.decode('utf-8')
 
 
+@app.template_filter('dayofweek')
+def dayofweek_filter(s):
+    s = str(s)
+    weeks = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+    return weeks[datetime.datetime(int(s[0:4]), int(s[4:6]), int(s[6:8])).weekday()]
+
 @app.template_filter('date')
 def date_filter(s):
     s = str(s)
