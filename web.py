@@ -47,15 +47,14 @@ def before_request():
     g.h1 = os.getenv('TITLE') # for <h1></h1> of each page
     g.db = connect_db()
 
-    print request.keys()
-
+    x_forwarded_for = request.headers.getlist("X-Forwarded-For")
     if ((not request.path.startswith('/static/')) and
         (not request.path.startswith('/favicon.ico')) and
         (not request.path.startswith('/api'))):
         cursor = g.db.cursor()
         cursor.execute('INSERT INTO access_log (path, ip_address, user_agent, referer, access_time) VALUES (%s, %s, %s, %s, %s)', \
                            [request.url[len(request.url_root) -1:],
-                            request.remote_addr,
+                            x_forwarded_for[0] if (0 < len(x_forwarded_for))  else request.remote_addr,
                             request.headers['User-Agent'] if request.headers.has_key('User-Agent') else '',
                             request.headers['Referer'] if request.headers.has_key('Referer') else '',
                             int(time.time())])
