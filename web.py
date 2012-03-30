@@ -47,6 +47,8 @@ def before_request():
     g.h1 = os.getenv('TITLE') # for <h1></h1> of each page
     g.db = connect_db()
 
+    print bool(os.getenv('DEBUG'))
+
     x_forwarded_for = request.headers.getlist("X-Forwarded-For")
     if ((not request.path.startswith('/static/')) and
         (not request.path.startswith('/favicon.ico')) and
@@ -215,7 +217,7 @@ def rss():
 @app.errorhandler(404)
 def http_error_404(error):
     # FIXME
-    return "404: page not found."
+    return "404: not found."
 
 
 if __name__ == '__main__':
