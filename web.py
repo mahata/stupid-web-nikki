@@ -12,7 +12,7 @@ from flask import Flask, request, session, g, redirect, url_for, abort, render_t
 
 
 app = Flask(__name__)
-app.config.update(DEBUG=os.getenv('DEBUG'), SECRET_KEY=os.getenv('SECRET_KEY'))
+app.config.update(DEBUG=bool(os.getenv('DEBUG')), SECRET_KEY=os.getenv('SECRET_KEY'))
 
 
 def connect_db():

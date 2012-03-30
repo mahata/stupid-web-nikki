@@ -6,7 +6,7 @@ import os
 heroku = "/usr/bin/heroku"
 app = "stupid-web-nikki"
 
-debug = "true"
+debug = 0
 secret_key = "development key"
 
 title = "Stupid web nikki"

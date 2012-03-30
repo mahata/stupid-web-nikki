@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export DEBUG=false
+export DEBUG=1
 export SECRET_KEY="development key"
 
 export TITLE="Stupid web nikki"
