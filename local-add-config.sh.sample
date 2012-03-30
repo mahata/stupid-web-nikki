@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export DEBUG=1
+export DEBUG="1"
 export SECRET_KEY="development key"
 
 export TITLE="Stupid web nikki"
@@ -10,4 +10,4 @@ export PGSQL_DB=""
 export PGSQL_USER=""
 export PGSQL_PASS=""
 export PGSQL_HOST=""
-export PGSQL_PORT=5432
+export PGSQL_PORT="5432"

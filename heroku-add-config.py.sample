@@ -6,7 +6,7 @@ import os
 heroku = "/usr/bin/heroku"
 app = "stupid-web-nikki"
 
-debug = 0
+debug = ""
 secret_key = "development key"
 
 title = "Stupid web nikki"
@@ -16,7 +16,7 @@ pgsql_db = ""
 pgsql_user = ""
 pgsql_pass = ""
 pgsql_host = ""
-pgsql_port = 5432
+pgsql_port = "5432"
 
 os.system('%s config:add --app %s DEBUG=%s'        % (heroku, app, debug))
 os.system('%s config:add --app %s SECRET_KEY="%s"' % (heroku, app, secret_key))
