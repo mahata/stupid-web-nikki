@@ -71,12 +71,9 @@ def before_request():
     g.h1 = os.getenv('TITLE') # for <h1></h1> of each page
     g.db = connect_db()
 
-    print "Hi!"
-    if (request.url_root.startswith('http://') and
-        (not app.config['DEBUG'])):
-        print "request.url_root: " + request.url_root
-        print "request.url: " + request.url
-        return redirect(request.url.replace("http://", "https://", 1), 301)
+    # if (request.url_root.startswith('http://') and
+    #     (not app.config['DEBUG'])):
+    #     return redirect(request.url.replace("http://", "https://", 1), 301)
 
     x_forwarded_for = request.headers.getlist("X-Forwarded-For")
     if ((not request.path.startswith('/static/')) and
