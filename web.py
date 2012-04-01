@@ -71,10 +71,6 @@ def before_request():
     g.h1 = os.getenv('TITLE') # for <h1></h1> of each page
     g.db = connect_db()
 
-    # if (request.url_root.startswith('http://') and
-    #     (not app.config['DEBUG'])):
-    #     return redirect(request.url.replace("http://", "https://", 1), 301)
-
     x_forwarded_for = request.headers.getlist("X-Forwarded-For")
     if ((not request.path.startswith('/static/')) and
         (not request.path.startswith('/favicon.ico')) and
@@ -248,4 +244,6 @@ def http_error_404(error):
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(host='0.0.0.0',
+            port=port,
+            ssl_context=(None if (bool(os.getenv('DEBUG'))) else 'adhoc'))
