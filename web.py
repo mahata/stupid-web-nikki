@@ -73,6 +73,8 @@ def before_request():
 
     if (request.url_root.startswith('http://') and
         (not app.config['DEBUG'])):
+        print "request.url_root: " + request.url_root
+        print "request.url: " + request.url
         return redirect(request.url.replace("http://", "https://", 1), 301)
 
     x_forwarded_for = request.headers.getlist("X-Forwarded-For")
