@@ -29,16 +29,40 @@ def unicode_filter(s):
     return s.decode('utf-8')
 
 
-@app.template_filter('dayofweek')
-def dayofweek_filter(s):
+@app.template_filter('day_of_week')
+def day_of_week_filter(s):
     s = str(s)
     weeks = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
     return weeks[datetime.datetime(int(s[0:4]), int(s[4:6]), int(s[6:8])).weekday()]
+
 
 @app.template_filter('date')
 def date_filter(s):
     s = str(s)
     return s[0:4] + '/' + s[4:6] + '/' + s[6:8]
+
+
+@app.template_filter('search_snippet')
+def search_snippet_filter(text, search_word):
+    snippet_len = 300
+    snippet_prev_buffer = 10
+
+    text_len = len(text)
+    try:
+        bottom_idx = text.index(search_word) - snippet_prev_buffer
+        bottom_idx = 0 if (bottom_idx < 0) else bottom_idx
+    except ValueError:
+        bottom_idx = 0
+
+    t = text_len - bottom_idx
+    if (t < snippet_len):
+        bottom_idx -= snippet_len - t
+        bottom_idx = 0 if (bottom_idx < 0) else bottom_idx
+
+    t = bottom_idx + snippet_len
+    upper_idx = text_len if (text_len < t) else t
+
+    return text[bottom_idx:upper_idx]
 
 
 @app.before_request
