@@ -13,7 +13,7 @@
 <ul>
 {% for article in var.articles %}
   <li>
-    <h2>{% if g['login'] %}(<a href="write?date={{ article[1] }}">edit</a>) {% endif %}<a href="article?date={{ article[1] }}">{{ article[1]|date }}</a> ({{ article[1]|day_of_week }})</h2>
+    <h2>{% if g['login'] %}(<a href="/write?date={{ article[1] }}">edit</a>) {% endif %}<a href="/article?date={{ article[1] }}">{{ article[1]|date }}</a> ({{ article[1]|day_of_week }})</h2>
 
 <!-- <p>{{ article[0]|unicode|truncate(300, True, "...") }}</p> -->
 <p class="search-results">... {{ article[0]|unicode|search_snippet(var.q) }} ...</p>

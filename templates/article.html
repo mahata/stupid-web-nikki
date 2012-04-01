@@ -9,9 +9,9 @@
 
 {% if '' != var['current'] %}
 <h2>
-{% if var['prev'] %}<a href="article?date={{ var['prev']['date'] }}">&laquo;</a>{% else %}&laquo;{% endif %}
-{% if g['login'] %}(<a href="write?date={{ var['current']['date'] }}">edit</a>) {% endif %}{{ var['date']|date }} ({{ var['date']|day_of_week}})
-{% if var['next'] %}<a href="article?date={{ var['next']['date'] }}">&raquo;</a>{% else %}&raquo;{% endif %}
+{% if var['prev'] %}<a href="/article?date={{ var['prev']['date'] }}">&laquo;</a>{% else %}&laquo;{% endif %}
+{% if g['login'] %}(<a href="/write?date={{ var['current']['date'] }}">edit</a>) {% endif %}{{ var['date']|date }} ({{ var['date']|day_of_week}})
+{% if var['next'] %}<a href="/article?date={{ var['next']['date'] }}">&raquo;</a>{% else %}&raquo;{% endif %}
 </h2>
 
 <div id="article">{{ var['current']['article']|safe }}</div>
