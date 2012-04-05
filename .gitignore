@@ -3,6 +3,7 @@ local-add-config.sh
 logfile
 include
 lib
+bin
 .Python
 .DS_Store
 *#
