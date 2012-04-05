@@ -1,6 +1,6 @@
 ## Prerequisite
 
-You need following software to install stupid-web-nikki.
+Following software is needed to install stupid-web-nikki.
 
 * Python 2.7
 * PostgreSQL
@@ -42,7 +42,7 @@ Following command list is a step-by-step instruction to install stupid-web-nikki
     CTRL-D
     $ python web.py
 
-Then, you can access to the server via http://localhost:5000/.  You can login to the service via http://localhost:5000/login, and the password to login is written on _local-add-config.sh_ (PASSWORD).
+After issuing commands above, you can access to the server via http://localhost:5000/.  You can login to the service via http://localhost:5000/login, and the password to login is written on _local-add-config.sh_ (PASSWORD).
 
 ## How to install (to heroku)
 
