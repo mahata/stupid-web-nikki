@@ -65,11 +65,6 @@ def search_snippet_filter(text, search_word):
     return text[bottom_idx:upper_idx]
 
 
-# @app.template_filter('emphasis')
-# def emphasis_filter(text, search_word, tag='em'):
-#     return text.replace(search_word, '<' + tag + '>' + search_word + '</' + tag + '>')
-
-
 @app.before_request
 def before_request():
     g.today = datetime.datetime.today()
