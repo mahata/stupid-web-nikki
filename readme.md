@@ -21,7 +21,7 @@ Following command list is a step-by-step instruction to install stupid-web-nikki
     (modify local-add-config.sh: PGSQL_DB, PGSQL_USER, PGSQL_PASS)
     $ source local-add-config.sh
     $ psql PGSQL_DB -U PGSQL_USER
-    pg_db=#
+    PGSQL_DB=#
     DROP TABLE IF EXISTS articles;
     CREATE TABLE articles (
       id SERIAL,
