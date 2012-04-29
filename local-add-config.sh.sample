@@ -11,3 +11,5 @@ export PGSQL_USER=""
 export PGSQL_PASS=""
 export PGSQL_HOST=""
 export PGSQL_PORT="5432"
+
+export SERVICE_DOMAIN="localhost:5000"
