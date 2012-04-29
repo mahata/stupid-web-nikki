@@ -13,3 +13,5 @@ export PGSQL_HOST=""
 export PGSQL_PORT="5432"
 
 export SERVICE_DOMAIN="localhost:5000"
+
+export GOOGLE_ANALYTICS_ACCOUNT="" # MODIFY ME (basically, this field would be like: "UA-xx-xx")

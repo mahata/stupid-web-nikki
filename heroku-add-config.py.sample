@@ -20,6 +20,8 @@ pgsql_port = "5432"
 
 service_domain = "www.example.com" # MODIFY ME
 
+google_analytics_account = "" # MODIFY ME (basically, this field would be like: "UA-xx-xx")
+
 os.system('%s config:add --app %s DEBUG=%s'        % (heroku, app, debug))
 os.system('%s config:add --app %s SECRET_KEY="%s"' % (heroku, app, secret_key))
 

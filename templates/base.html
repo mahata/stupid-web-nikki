@@ -10,6 +10,7 @@
     <!--[if lt IE 9]>
     <script src="/static/js/html5.js"></script>
     <![endif]-->
+{% if '' != g['google_analytics_account'] %}{% include 'google-analytics.html' %}{% endif %}
 {% endblock %}
   </head>
 
