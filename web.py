@@ -72,8 +72,7 @@ def before_request():
 
     domain = re.search('^https?://([^/]+)', request.url).group(1)
     if (os.getenv('SERVICE_DOMAIN') != domain):
-        print request.url.replace(domain, os.getenv('SERVICE_DOMAIN'), 1)
-        return redirect(request.url.replace(domain, os.getenv('SERVICE_DOMAIN'), 1))
+        return redirect(request.url.replace(domain, os.getenv('SERVICE_DOMAIN'), 1), 301)
 
     x_forwarded_for = request.headers.getlist("X-Forwarded-For")
     if ((not request.path.startswith('/static/')) and
