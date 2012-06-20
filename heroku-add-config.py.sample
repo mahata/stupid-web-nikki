@@ -18,6 +18,10 @@ pgsql_pass = ""
 pgsql_host = ""
 pgsql_port = "5432"
 
+service_domain = "www.example.com" # MODIFY ME
+
+google_analytics_account = "" # MODIFY ME (basically, this field would be like: "UA-xx-xx")
+
 os.system('%s config:add --app %s DEBUG=%s'        % (heroku, app, debug))
 os.system('%s config:add --app %s SECRET_KEY="%s"' % (heroku, app, secret_key))
 
@@ -29,3 +33,5 @@ os.system('%s config:add --app %s PGSQL_USER="%s"' % (heroku, app, pgsql_user))
 os.system('%s config:add --app %s PGSQL_PASS="%s"' % (heroku, app, pgsql_pass))
 os.system('%s config:add --app %s PGSQL_HOST="%s"' % (heroku, app, pgsql_host))
 os.system('%s config:add --app %s PGSQL_PORT=%s'   % (heroku, app, pgsql_port))
+
+os.system('%s config:add --app %s SERVICE_DOMAIN=%s' % (heroku, app, service_domain))

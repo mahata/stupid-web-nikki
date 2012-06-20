@@ -4,6 +4,7 @@ logfile
 include
 lib
 bin
+TAGS
 .Python
 .DS_Store
 *#
