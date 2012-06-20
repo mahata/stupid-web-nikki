@@ -3,6 +3,8 @@
 Following software is needed to install stupid-web-nikki.
 
 * Python 2.7
+  * pip
+  * virtualenv
 * PostgreSQL
 * Git
 * heroku (gem package)
