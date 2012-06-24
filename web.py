@@ -70,23 +70,6 @@ def before_request():
     g.google_analytics_account = os.getenv('GOOGLE_ANALYTICS_ACCOUNT')
     g.db = connect_db()
 
-    domain = re.search('^https?://([^/]+)', request.url).group(1)
-    if (os.getenv('SERVICE_DOMAIN') != domain):
-        return redirect(request.url.replace(domain, os.getenv('SERVICE_DOMAIN'), 1), 301)
-
-    # x_forwarded_for = request.headers.getlist("X-Forwarded-For")
-    # if ((not request.path.startswith('/static/')) and
-    #     (not request.path.startswith('/favicon.ico')) and
-    #     (not request.path.startswith('/api'))):
-    #     cursor = g.db.cursor()
-    #     cursor.execute('INSERT INTO access_log (path, ip_address, user_agent, referer, access_time) VALUES (%s, %s, %s, %s, %s)', \
-    #                        [request.url[len(request.url_root) -1:],
-    #                         x_forwarded_for[0] if (0 < len(x_forwarded_for))  else request.remote_addr,
-    #                         request.headers['User-Agent'] if request.headers.has_key('User-Agent') else '',
-    #                         request.headers['Referer'] if request.headers.has_key('Referer') else '',
-    #                         int(time.time())])
-    #     g.db.commit()
-
     try:
         g.login = session['login']
     except:
