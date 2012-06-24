@@ -17,17 +17,23 @@
   <body>
 <h1><a href="/">{{ g['h1']|unicode }}</a></h1>
 
-{% block search %}
-<div>
+
+{% block main %}{% endblock %}
+
+{% block creativecommons %}
+<div class="search-box">
 <form action="search" method="GET">
-<input id="q" name="q" placeholder="Search keyword here" type="text" value="{{ var.q }}" autofocus /> <input type="submit" value="Search" />
+<input id="q" name="q" placeholder="Search keyword here" type="text" value="{{ var.q }}" />
+<input type="submit" value="Search" />
 </form>
 </div>
 {% endblock %}
 
-{% block main %}{% endblock %}
-
-{% block creativecommons %}<p><a href="http://creativecommons.org/licenses/by-sa/3.0/"><img src="/static/img/creativecommons.gif" alt="Creative Commons" /></a></p>{% endblock %}
+{% block search %}
+<div class="creative-commons">
+<a href="http://creativecommons.org/licenses/by-sa/3.0/"><img src="/static/img/creativecommons.gif" alt="Creative Commons" /></a>
+</div>
+{% endblock %}
 
   </body>
 </html>
