@@ -8,6 +8,14 @@ h2 a {
     text-decoration: none;
 }
 
+hr {
+    border-style: dotted;
+}
+
+span.credit {
+    font-style: italic;
+}
+
 div.search-box {
     padding: 5px 0px 5px;
 }

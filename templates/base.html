@@ -17,14 +17,16 @@
   <body>
 <h1><a href="/">{{ g['h1']|unicode }}</a></h1>
 
-
 {% block main %}{% endblock %}
+
+<hr />
 
 {% block creativecommons %}
 <div class="search-box">
 <form action="search" method="GET">
 <input id="q" name="q" placeholder="Search keyword here" type="text" value="{{ var.q }}" />
 <input type="submit" value="Search" />
+<span class="credit">Powered by - <a href="https://github.com/mahata/.stupid-web-nikki/">Stupid Web Nikki</a></span>
 </form>
 </div>
 {% endblock %}
