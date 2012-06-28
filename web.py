@@ -5,7 +5,6 @@ import os
 import psycopg2
 import datetime
 import markdown
-import re
 from flask import Flask, request, session, g, redirect, url_for, render_template
 
 
@@ -84,10 +83,17 @@ def teardown_request(exception):
 
 @app.route('/')
 def index():
+    page = int(request.args.get('page')) if (request.args.get('page') and 0 < int(request.args.get('page'))) else 1
+    limit = os.getenv('ARTICLE_NUMBER_PER_PAGE')
+    offset = (page - 1) * os.getenv('ARTICLE_NUMBER_PER_PAGE')
+
     cursor = g.db.cursor()
-    cursor.execute('SELECT article, created_date FROM articles ORDER BY created_date DESC')
+    cursor.execute('SELECT article, created_date FROM articles ORDER BY created_date DESC LIMIT %s OFFSET %s',
+                   [limit, offset])
     return render_template('index.html', var={'articles': cursor.fetchall(), \
                                               'title': os.getenv('TITLE') + ' - top',
+                                              'article_number_per_page': os.getenv('ARTICLE_NUMBER_PER_PAGE'),
+                                              'page': page,
                                               })
 
 
