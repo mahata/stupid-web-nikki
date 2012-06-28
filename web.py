@@ -92,7 +92,7 @@ def index():
                    [limit, offset])
     return render_template('index.html', var={'articles': cursor.fetchall(), \
                                               'title': os.getenv('TITLE') + ' - top',
-                                              'article_number_per_page': os.getenv('ARTICLE_NUMBER_PER_PAGE'),
+                                              'article_number_per_page': int(os.getenv('ARTICLE_NUMBER_PER_PAGE')),
                                               'page': page,
                                               })
 
