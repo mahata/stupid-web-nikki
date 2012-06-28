@@ -84,8 +84,8 @@ def teardown_request(exception):
 @app.route('/')
 def index():
     page = int(request.args.get('page')) if (request.args.get('page') and 0 < int(request.args.get('page'))) else 1
-    limit = os.getenv('ARTICLE_NUMBER_PER_PAGE')
-    offset = (page - 1) * os.getenv('ARTICLE_NUMBER_PER_PAGE')
+    limit = int(os.getenv('ARTICLE_NUMBER_PER_PAGE'))
+    offset = (page - 1) * int(os.getenv('ARTICLE_NUMBER_PER_PAGE'))
 
     cursor = g.db.cursor()
     cursor.execute('SELECT article, created_date FROM articles ORDER BY created_date DESC LIMIT %s OFFSET %s',
