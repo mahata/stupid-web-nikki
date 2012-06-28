@@ -12,6 +12,10 @@ hr {
     border-style: dotted;
 }
 
+div.paging {
+    padding: 5px;
+}
+
 span.credit {
     font-style: italic;
 }

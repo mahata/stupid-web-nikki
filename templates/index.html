@@ -14,11 +14,13 @@
 {% endfor %}
 </ul>
 
-{% if 1 < var.page %}
-<a href="/?page={{ var.page - 1}}">newer articles &raquo;</a>
-{% endif %}
+<div class="paging">
 {% if var.articles|length == var.article_number_per_page %}
 <a href="/?page={{ var.page + 1}}">&laquo; older articles</a>
 {% endif %}
+{% if 1 < var.page %}
+<a href="/?page={{ var.page - 1}}">newer articles &raquo;</a>
+{% endif %}
+</div>
 
 {% endblock %}
