@@ -134,21 +134,29 @@ def write():
 
 
 @app.route('/article')
-def article():
+def old_article():
+    if request.args.get('date'):
+        return redirect(url_for('article', date=request.args.get('date')))
+    else:
+        return "Error" # FIX ME
+
+
+@app.route('/article/<int:date>')
+def article(date):
     cursor = g.db.cursor()
     sql = 'SELECT article, created_date ' + \
           'FROM articles ' + \
           'WHERE created_date >= (SELECT COALESCE((SELECT created_date FROM articles WHERE created_date < %s ORDER BY created_date DESC LIMIT 1), 1)) ' + \
           'ORDER BY created_date ASC ' + \
           'LIMIT 3'
-    cursor.execute(sql, [request.args.get('date')])
+    cursor.execute(sql, [date])
     prev = current = next = None
     articles = cursor.fetchall()
     for article in articles:
-        if article[1] < int(request.args.get('date')):
+        if article[1] < int(date):
             if None == prev:
                 prev = {'article': markdown.markdown(article[0].decode('utf-8')), 'date': article[1]}
-        elif article[1] == int(request.args.get('date')):
+        elif article[1] == int(date):
             if None == current:
                 current = {'article': markdown.markdown(article[0].decode('utf-8')), 'date': article[1]}
         else:
@@ -158,8 +166,8 @@ def article():
     return render_template('article.html', var={'prev': prev, \
                                                 'current': current,\
                                                 'next': next, \
-                                                'title': os.getenv('TITLE') + ' - ' + date_filter(request.args.get('date')), \
-                                                'date': request.args.get('date'),
+                                                'title': os.getenv('TITLE') + ' - ' + date_filter(date), \
+                                                'date': date,
                                                 })
 
 
@@ -215,7 +223,7 @@ def rss():
         t = datetime.date(int(str(article[1])[0:4]), int(str(article[1])[4:6]), int(str(article[1])[6:8]))
         rss += '<item>' + "\n" + \
               '<title>' + date_filter(article[1]) + '</title>' + "\n" + \
-              '<link>' + '%s://%s/article?date=%s' % (request.scheme, request.host, article[1]) + '</link>' + "\n" + \
+              '<link>' + '%s://%s/article/%s' % (request.scheme, request.host, article[1]) + '</link>' + "\n" + \
               '<description>' + "\n" + \
               '<![CDATA[' + "\n" + markdown.markdown(article[0].decode('utf-8')) + "\n" + \
               ']]>' + "\n" + \
