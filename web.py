@@ -64,6 +64,9 @@ def search_snippet_filter(text, search_word):
 
 @app.before_request
 def before_request():
+    if request.host != os.getenv('SERVICE_DOMAIN'):
+        return redirect(request.url.replace(request.host, os.getenv('SERVICE_DOMAIN')))
+
     g.today = datetime.datetime.today()
     g.h1 = os.getenv('TITLE') # for <h1></h1> of each page
     g.google_analytics_account = os.getenv('GOOGLE_ANALYTICS_ACCOUNT')
