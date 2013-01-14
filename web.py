@@ -169,6 +169,8 @@ def article(date):
             if None == next:
                 next = {'article_title': title.decode('utf-8'), 'article': text, 'date': created_date}
 
+    title = current['article_title'] + (' - ' if '' != current['article_title']) + os.getenv('TITLE') + ' - ' + date_filter(date)
+
     return render_template('article.html', var={'prev': prev, \
                                                 'current': current,\
                                                 'next': next, \
