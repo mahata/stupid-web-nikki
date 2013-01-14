@@ -156,25 +156,25 @@ def article(date):
     prev = current = next = None
     articles = cursor.fetchall()
     for article in articles:
-        title = '' if None == article[0] else article[0]
+        title = '' if None == article[0] else article[0].decode('utf-8')
         text = '' if None == article[1] else markdown.markdown(article[1].decode('utf-8'))
         created_date = '' if None == article[2] else article[2]
         if created_date < int(date):
             if None == prev:
-                prev = {'article_title': title.decode('utf-8'), 'article': text, 'date': created_date}
+                prev = {'article_title': title, 'article': text, 'date': created_date}
         elif created_date == int(date):
             if None == current:
-                current = {'article_title': title.decode('utf-8'), 'article': text, 'date': created_date}
+                # current = {'article_title': title.decode('utf-8'), 'article': text, 'date': created_date}
+                current = {'article_title': title, 'article': text, 'date': created_date}
         else:
             if None == next:
-                next = {'article_title': title.decode('utf-8'), 'article': text, 'date': created_date}
+                next = {'article_title': title, 'article': text, 'date': created_date}
 
-    title = current['article_title'] + (' - ' if '' != current['article_title']) + os.getenv('TITLE') + ' - ' + date_filter(date)
-
+    title = os.getenv('TITLE') + ' - ' + date_filter(date)
     return render_template('article.html', var={'prev': prev, \
                                                 'current': current,\
                                                 'next': next, \
-                                                'title': os.getenv('TITLE') + ' - ' + date_filter(date), \
+                                                'title': title, \
                                                 'date': date,
                                                 })
 

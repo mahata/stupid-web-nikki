@@ -23,7 +23,6 @@
     height: 550px;
     width: 50%;
     padding: 5px;
-    text-align: center;
 }
 
 #right-box {
@@ -34,6 +33,6 @@
 }
 
 #text {
-    height: 520px;
+    height: 440px;
     width: 98%;
 }
