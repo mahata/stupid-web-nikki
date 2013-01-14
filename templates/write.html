@@ -22,7 +22,8 @@
 
 <div id="left-box">
 <form method="POST">
-<input name="date" type="hidden" value="{{ var['date'] }}" />
+<input name="date" type="hidden" size="128" value="{{ var['date'] }}" />
+<input id="article_title" name="article_title" type="text" value="{{ var['article_title']|unicode }}" /><br />
 <textarea id="text" name="text" placeholder="Write your article...">{{ var['article']|unicode }}</textarea><br />
 <input type="submit" value="post" />
 </form>

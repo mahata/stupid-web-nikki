@@ -23,7 +23,7 @@ def connect_db():
 
 @app.template_filter('unicode')
 def unicode_filter(s):
-    return s.decode('utf-8')
+    return '' if (s == None or s == '') else s.decode('utf-8')
 
 
 @app.template_filter('day_of_week')
@@ -102,18 +102,18 @@ def index():
 
 @app.route('/write', methods=['GET', 'POST'])
 def write():
-    var = {'article': '', 'date': '', 'title': os.getenv('TITLE')}
+    var = {'article_title': '', 'article': '', 'date': '', 'title': os.getenv('TITLE')}
     if 'POST' == request.method and session['login']:
         var['date'] = request.form['date']
         try:
             cursor = g.db.cursor()
-            cursor.execute('INSERT INTO articles (article, created_date) VALUES (%s, %s)', \
-                               [request.form['text'], var['date']])
+            cursor.execute('INSERT INTO articles (title, article, created_date) VALUES (%s, %s, %s)', \
+                               [request.form['article_title'], request.form['text'], var['date']])
         except:
             g.db.rollback()
             cursor = g.db.cursor()
-            cursor.execute('UPDATE articles SET article = %s WHERE created_date = %s', \
-                               [request.form['text'], var['date']])
+            cursor.execute('UPDATE articles SET title = %s, article = %s WHERE created_date = %s', \
+                               [request.form['article_title'], request.form['text'], var['date']])
 
         g.db.commit()
 
@@ -125,9 +125,12 @@ def write():
 
     try:
         cursor = g.db.cursor()
-        cursor.execute('SELECT article FROM articles WHERE created_date = %s', [var['date']])
-        var['article'] = cursor.fetchone()[0]
+        cursor.execute('SELECT title, article FROM articles WHERE created_date = %s', [var['date']])
+        article = cursor.fetchone()
+        var['article_title'] = article[0]
+        var['article'] = article[1]
     except:
+        var['article_title'] = ''
         var['article'] = ''
 
     return render_template('write.html', var=var)
@@ -144,7 +147,7 @@ def old_article():
 @app.route('/article/<int:date>')
 def article(date):
     cursor = g.db.cursor()
-    sql = 'SELECT article, created_date ' + \
+    sql = 'SELECT title, article, created_date ' + \
           'FROM articles ' + \
           'WHERE created_date >= (SELECT COALESCE((SELECT created_date FROM articles WHERE created_date < %s ORDER BY created_date DESC LIMIT 1), 1)) ' + \
           'ORDER BY created_date ASC ' + \
@@ -153,15 +156,18 @@ def article(date):
     prev = current = next = None
     articles = cursor.fetchall()
     for article in articles:
-        if article[1] < int(date):
+        title = '' if None == article[0] else article[0]
+        text = '' if None == article[1] else markdown.markdown(article[1].decode('utf-8'))
+        created_date = '' if None == article[2] else article[2]
+        if created_date < int(date):
             if None == prev:
-                prev = {'article': markdown.markdown(article[0].decode('utf-8')), 'date': article[1]}
-        elif article[1] == int(date):
+                prev = {'article_title': title.decode('utf-8'), 'article': text, 'date': created_date}
+        elif created_date == int(date):
             if None == current:
-                current = {'article': markdown.markdown(article[0].decode('utf-8')), 'date': article[1]}
+                current = {'article_title': title.decode('utf-8'), 'article': text, 'date': created_date}
         else:
             if None == next:
-                next = {'article': markdown.markdown(article[0].decode('utf-8')), 'date': article[1]}
+                next = {'article_title': title.decode('utf-8'), 'article': text, 'date': created_date}
 
     return render_template('article.html', var={'prev': prev, \
                                                 'current': current,\
