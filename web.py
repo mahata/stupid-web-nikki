@@ -170,7 +170,7 @@ def article(date):
             if None == next:
                 next = {'article_title': title, 'article': text, 'date': created_date}
 
-    title = os.getenv('TITLE') + ' - ' + date_filter(date)
+    title = ('' if '' == current['article_title'] else current['article_title'].encode('utf-8') + ' - ') + os.getenv('TITLE')
     return render_template('article.html', var={'prev': prev, \
                                                 'current': current,\
                                                 'next': next, \
