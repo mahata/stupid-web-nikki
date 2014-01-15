@@ -31,16 +31,6 @@ Following command list is a step-by-step instruction to install stupid-web-nikki
       created_date INTEGER,
       UNIQUE(created_date)
     );
-    
-    DROP TABLE IF EXISTS access_log;
-    CREATE TABLE access_log (
-      id SERIAL,
-      path VARCHAR(255),
-      ip_address VARCHAR(20),
-      user_agent TEXT,
-      referer TEXT,
-      access_time INTEGER
-    );
     CTRL-D
     $ python web.py
 
