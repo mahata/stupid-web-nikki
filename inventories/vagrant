@@ -1,0 +1,6 @@
+[vagrant]
+192.168.1.100
+
+[all:vars]
+env=dev
+vagrant=True
