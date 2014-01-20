@@ -20,8 +20,24 @@
         - git
         - postgresql-9.3
         - postgresql-contrib-9.3
+        - postgresql-server-dev-9.3
+        - python-dev
         - python-psycopg2
         - python-pip
+        - python-setuptools
+
+    # We shouldn't ignore_errors for this, but the latest pip has an issue on setuptools.
+    - name: upgrade pip
+      command: pip install --upgrade pip
+      ignore_errors: true
+
+    - name: copy requirements file
+      copy: src=requirements.txt dest=/tmp/requirements.txt
+
+    # We shouldn't ignore_errors for this, but the latest pip has an issue on setuptools.
+    - name: install requirements
+      pip: requirements=/tmp/requirements.txt
+      ignore_errors: true
 
     - name: create postgresql data directory
       file: dest="/var/lib/postgresql/9.3/main" state=directory mode=0700 owner=postgres group=postgres
