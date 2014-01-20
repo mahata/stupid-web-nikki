@@ -21,6 +21,7 @@
         - postgresql-9.3
         - postgresql-contrib-9.3
         - python-psycopg2
+        - python-pip
 
     - name: create postgresql data directory
       file: dest="/var/lib/postgresql/9.3/main" state=directory mode=0700 owner=postgres group=postgres
@@ -46,5 +47,3 @@
 
     - name: run initial DDL script
       command: sudo su - postgres psql -c "PGPASSWORD='pgpass'; psql -d pgdb -U postgres < /tmp/ddl.sql"
-
-
