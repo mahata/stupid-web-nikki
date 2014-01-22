@@ -127,3 +127,4 @@ export PGSQL_HOST="localhost"
 export PGSQL_PORT="5432"
 
 export SERVICE_DOMAIN="localhost:5001"
+export ARTICLE_NUMBER_PER_PAGE="10"
