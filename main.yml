@@ -63,3 +63,6 @@
 
     - name: run initial DDL script
       command: sudo su - postgres psql -c "PGPASSWORD='pgpass'; psql -d pgdb -U postgres < /tmp/ddl.sql"
+
+    - name: copy .bashrc
+      copy: src=files/.bashrc dest="/home/vagrant/.bashrc" owner=vagrant group=vagrant
