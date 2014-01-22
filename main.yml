@@ -25,6 +25,7 @@
         - python-psycopg2
         - python-pip
         - python-setuptools
+        - language-pack-en
 
     # We shouldn't ignore_errors for this, but the latest pip has an issue on setuptools.
     - name: upgrade pip
