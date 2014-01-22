@@ -2,39 +2,37 @@
 
 Following software is needed to install stupid-web-nikki.
 
-* Python 2.7
-  * pip
-  * virtualenv
-* PostgreSQL
-* Git
-* heroku (gem package)
+* VirtualBox 4.2.*
+* Vagrant 1.4.*
+* Ansible 1.4.*
 
 ## How to install (to local machine)
 
-Following command list is a step-by-step instruction to install stupid-web-nikki to your local computer.
+```
+git clone git@github.com:mahata/.stupid-web-nikki.git
+cd .stupid-web-nikki
+vagrant up
+```
 
-    $ cd /PATH/TO/INSTALL
-    $ git clone git@github.com:mahata/.stupid-web-nikki.git
-    $ virtualenv --python=/usr/bin/python2.7 ~/.stupid-web-nikki # Assuming python is installed on /usr/bin/python2.7
-    $ source ~/.stupid-web-nikki/bin/activate
-    $ cd .stupid-web-nikki
-    $ pip install -r  requirements.txt
-    $ cp local-add-config.sh.sample local-add-config.sh
-    (modify local-add-config.sh: PGSQL_DB, PGSQL_USER, PGSQL_PASS)
-    $ source local-add-config.sh
-    $ psql PGSQL_DB -U PGSQL_USER
-    PGSQL_DB=#
-    DROP TABLE IF EXISTS articles;
-    CREATE TABLE articles (
-      id SERIAL,
-      article TEXT,
-      created_date INTEGER,
-      UNIQUE(created_date)
-    );
-    CTRL-D
-    $ python web.py
+### How to run the service
 
-After issuing commands above, you can access to the server via http://localhost:5000/.  You can login to the service via http://localhost:5000/login, and the password to login is written on _local-add-config.sh_ (PASSWORD).
+```
+vagrant ssh
+cd swn
+python web.py
+```
+
+You'll be able to access it via http://localhost:5001/
+
+You'll be able to login via http://localhost:5001/login and default password is "password".
+
+### How to troubleshoot
+
+```
+vagrant destroy
+vi ~/.ssh/known_host # <- delete a record which starts with 192.168.1.100
+vagrant up
+```
 
 ## How to install (to heroku)
 
