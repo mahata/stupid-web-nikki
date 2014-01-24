@@ -1,3 +1,7 @@
+# Stupid Web Nikki
+
+Stupid Web Nikki is a yet another Nikki (日記) system. Nikki (日記) means `DIARY` in Japanese, and this software is for you to write diary and publish it on the web.
+
 ## Prerequisite
 
 Following software is needed to install stupid-web-nikki.
