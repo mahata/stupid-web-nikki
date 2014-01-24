@@ -57,7 +57,7 @@
       command: sudo -u postgres psql -c "ALTER USER postgres WITH ENCRYPTED PASSWORD 'pgpass';"
 
     - name: create database
-      postgresql_db: login_host=127.0.0.1 login_password="pgpass" name="pgdb" owner="postgres" encoding="UTF-8"
+      postgresql_db: login_host=127.0.0.1 login_password="pgpass" name="pgdb" owner="postgres" encoding="UTF-8" lc_collate='en_US.UTF-8' lc_ctype='en_US.UTF-8'
 
     - name: copy initial DDL script
       copy: src=files/ddl.sql dest="/tmp/ddl.sql" mode=0600 owner=postgres group=postgres
