@@ -3,15 +3,16 @@
 
 import os
 
-heroku = "/usr/bin/heroku"
-app = "stupid-web-nikki"
+heroku = "/usr/bin/env heroku"
+app = "your-application-name-on-heroku" # MODIFY ME
 
 debug = ""
-secret_key = "development key"
+secret_key = "development key" # MODIFY ME (long random string is expected)
 
 title = "Stupid web nikki"
-password = "password"
+password = "password" # MODIFY ME (this is for "http://www.example.com/login")
 
+# You can check following settings on Heroku (https://postgres.heroku.com/databases)
 pgsql_db = ""
 pgsql_user = ""
 pgsql_pass = ""
@@ -21,8 +22,6 @@ pgsql_port = "5432"
 article_number_per_page = "30"
 
 service_domain = "www.example.com" # MODIFY ME
-
-google_analytics_account = "" # MODIFY ME (basically, this field would be like: "UA-xx-xx")
 
 os.system('%s config:add --app %s DEBUG=%s'        % (heroku, app, debug))
 os.system('%s config:add --app %s SECRET_KEY="%s"' % (heroku, app, secret_key))
@@ -39,5 +38,3 @@ os.system('%s config:add --app %s PGSQL_PORT=%s'   % (heroku, app, pgsql_port))
 os.system('%s config:add --app %s ARTICLE_NUMBER_PER_PAGE=%s'   % (heroku, app, article_number_per_page))
 
 os.system('%s config:add --app %s SERVICE_DOMAIN=%s' % (heroku, app, service_domain))
-
-os.system('%s config:add --app %s GOOGLE_ANALYTICS_ACCOUNT=%s' % (heroku, app, google_analytics_account))

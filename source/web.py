@@ -69,7 +69,6 @@ def before_request():
 
     g.today = datetime.datetime.today()
     g.h1 = os.getenv('TITLE') # for <h1></h1> of each page
-    g.google_analytics_account = os.getenv('GOOGLE_ANALYTICS_ACCOUNT')
     g.db = connect_db()
 
     try:
