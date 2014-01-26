@@ -47,10 +47,11 @@ Heroku keeps changing it's service so it depends on Heroku's status. Basically, 
 3. On the application page, get following add-ons:
     * Heroku Postgres :: *
     * PG Backups
-4. Copy `heroku-add-config.py.sample` to `heroku-add-config.py` and modify the file
-5. Run `python heroku-add-config.py`
-6. Check Git repository path for your application on Heroku (https://dashboard.heroku.com/apps/smart-web-nikki/settings), and run `git remote add heroku git@heroku.com:YOUR_OWN_APP.git`
-6. Run `git push heroku master`
+4. Run `heroku pg:psql`, then copy & paste DDL defined `files/ddl.sql` into the console, then exit by `\q`
+5. Copy `heroku-add-config.py.sample` to `heroku-add-config.py` and modify the file
+6. Run `python heroku-add-config.py`
+7. Check Git repository path for your application on Heroku (https://dashboard.heroku.com/apps/smart-web-nikki/settings), and run `git remote add heroku git@heroku.com:YOUR_OWN_APP.git`
+8. Run `git push heroku master`
 
 Or, it might be better off checking [Heroku official manual](https://devcenter.heroku.com/articles/getting-started-with-python).
 
