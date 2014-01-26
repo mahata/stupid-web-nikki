@@ -5,6 +5,7 @@ include
 lib
 bin
 TAGS
+readme.html
 .Python
 .DS_Store
 *#
