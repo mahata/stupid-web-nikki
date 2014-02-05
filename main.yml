@@ -43,6 +43,10 @@
     - name: create postgresql data directory
       file: dest="/var/lib/postgresql/9.3/main" state=directory mode=0700 owner=postgres group=postgres
 
+    - name: make sure the directory for configurations exist
+      file: path=/etc/postgresql/9.3/main mode=0644 owner=postgres group=postgres state=directory
+      ignore_errors: true
+
     - name: install postgresql configuration
       copy: src=files/postgresql.conf dest="/etc/postgresql/9.3/main/postgresql.conf" mode=0644 owner=postgres group=postgres
 
