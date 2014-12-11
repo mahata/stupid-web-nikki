@@ -6,7 +6,7 @@ export SECRET_KEY="development key"
 export TITLE="Stupid web nikki"
 export PASSWORD="password"
 
-export PGSQL_DB=""
+export PGSQL_DB="postgres"
 export PGSQL_USER=""
 export PGSQL_PASS=""
 export PGSQL_HOST=""
