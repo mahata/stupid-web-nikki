@@ -5,6 +5,7 @@ export SECRET_KEY="development key"
 
 export TITLE="Stupid web nikki"
 export PASSWORD="password"
+export ARTICLE_NUMBER_PER_PAGE="10"
 
 export PGSQL_DB="postgres"
 export PGSQL_USER=""
