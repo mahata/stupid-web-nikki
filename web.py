@@ -68,7 +68,7 @@ def before_request():
         return redirect(request.url.replace(request.host, os.getenv('SERVICE_DOMAIN')))
 
     g.today = datetime.datetime.today()
-    g.h1 = os.getenv('TITLE') # for <h1></h1> of each page
+    g.h1 = os.getenv('TITLE')  # for <h1></h1> of each page
     g.db = connect_db()
 
     try:
@@ -92,7 +92,7 @@ def index():
     cursor = g.db.cursor()
     cursor.execute('SELECT article, created_date FROM articles ORDER BY created_date DESC LIMIT %s OFFSET %s',
                    [limit, offset])
-    return render_template('index.html', var={'articles': cursor.fetchall(), \
+    return render_template('index.html', var={'articles': cursor.fetchall(),
                                               'title': os.getenv('TITLE') + ' - top',
                                               'article_number_per_page': int(os.getenv('ARTICLE_NUMBER_PER_PAGE')),
                                               'page': page,
@@ -106,13 +106,11 @@ def write():
         var['date'] = request.form['date']
         try:
             cursor = g.db.cursor()
-            cursor.execute('INSERT INTO articles (title, article, created_date) VALUES (%s, %s, %s)', \
-                               [request.form['article_title'], request.form['text'], var['date']])
+            cursor.execute('INSERT INTO articles (title, article, created_date) VALUES (%s, %s, %s)',                               [request.form['article_title'], request.form['text'], var['date']])
         except:
             g.db.rollback()
             cursor = g.db.cursor()
-            cursor.execute('UPDATE articles SET title = %s, article = %s WHERE created_date = %s', \
-                               [request.form['article_title'], request.form['text'], var['date']])
+            cursor.execute('UPDATE articles SET title = %s, article = %s WHERE created_date = %s',                               [request.form['article_title'], request.form['text'], var['date']])
 
         g.db.commit()
 
@@ -140,7 +138,7 @@ def old_article():
     if request.args.get('date'):
         return redirect(url_for('article', date=request.args.get('date')))
     else:
-        return "Error" # FIX ME
+        return "Error"  # FIX ME
 
 
 @app.route('/article/<int:date>')
@@ -163,17 +161,16 @@ def article(date):
                 prev = {'article_title': title, 'article': text, 'date': created_date}
         elif created_date == int(date):
             if None == current:
-                # current = {'article_title': title.decode('utf-8'), 'article': text, 'date': created_date}
                 current = {'article_title': title, 'article': text, 'date': created_date}
         else:
             if None == next:
                 next = {'article_title': title, 'article': text, 'date': created_date}
 
     title = ('' if '' == current['article_title'] else current['article_title'].encode('utf-8') + ' - ') + os.getenv('TITLE')
-    return render_template('article.html', var={'prev': prev, \
-                                                'current': current,\
-                                                'next': next, \
-                                                'title': title, \
+    return render_template('article.html', var={'prev': prev,
+                                                'current': current,
+                                                'next': next,
+                                                'title': title,
                                                 'date': date,
                                                 })
 
@@ -182,10 +179,9 @@ def article(date):
 def search():
     q = request.args.get('q')
     cursor = g.db.cursor()
-    cursor.execute('SELECT article, created_date FROM articles WHERE article ILIKE %(like)s ORDER BY created_date DESC', \
-                       dict(like='%'+q+'%'))
-    return render_template('search.html', var={'articles': cursor.fetchall(), \
-                                               'title': os.getenv('TITLE') + ' - search', \
+    cursor.execute('SELECT article, created_date FROM articles WHERE article ILIKE %(like)s ORDER BY created_date DESC',  dict(like='%'+q+'%'))
+    return render_template('search.html', var={'articles': cursor.fetchall(),
+                                               'title': os.getenv('TITLE') + ' - search',
                                                'q': q,
                                                })
 
